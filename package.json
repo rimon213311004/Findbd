@@ -1,0 +1,29 @@
+{
+  "name": "findbd",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bangladesh-focused lost & found platform with automatic Lost↔Found matching",
+  "license": "UNLICENSED",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "scripts": {
+    "build": "npm run build -w @findbd/shared && npm run build -w @findbd/api && npm run build -w @findbd/web",
+    "build:shared": "npm run build -w @findbd/shared",
+    "dev": "concurrently -n api,web -c cyan,magenta \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "npm run dev -w @findbd/api",
+    "dev:web": "npm run dev -w @findbd/web",
+    "seed": "npm run seed -w @findbd/api",
+    "db:check": "npm run db:check -w @findbd/api",
+    "test": "npm run test -w @findbd/api",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "typescript": "^7.0.2"
+  }
+}
