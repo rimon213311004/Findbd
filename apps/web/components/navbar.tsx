@@ -19,7 +19,7 @@ import { Button, ButtonLink, Container, cx } from './ui';
  */
 
 const LINKS = [
-  { href: '/reports', label: 'Browse reports' },
+  { href: '/reports', label: 'Browse reports', auth: false },
   { href: '/dashboard', label: 'Dashboard', auth: true },
   { href: '/dashboard/matches', label: 'Matches', auth: true },
 ] as const;

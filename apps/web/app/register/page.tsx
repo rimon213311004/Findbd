@@ -5,28 +5,27 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '../../lib/auth';
 import { useAction } from '../../lib/hooks';
-import { apiPost, ApiError } from '../../lib/api';
+import { ApiError } from '../../lib/api';
 import { Container, Field, Input, Button, Alert, EmptyState, ButtonLink, cx } from '../../components/ui';
 import type { RegisterInput } from '@findbd/shared';
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { ready, user } = useAuth();
+  const { ready, user, signUp } = useAuth();
   const [formError, setFormError] = useState<string | null>(null);
 
-  const action = useAction<[RegisterInput], { user: unknown; accessToken: string }>(
+  const action = useAction<[RegisterInput], void>(
     async (input) => {
       setFormError(null);
-      const data = await apiPost<{ user: unknown; accessToken: string }>('/api/auth/register', input);
-      return data;
+      await signUp(input);
     },
   );
 
   useEffect(() => {
-    if (ready && action.pending === false && !action.error && user) {
+    if (ready && user) {
       router.replace('/dashboard');
     }
-  }, [ready, action.pending, action.error, user, router]);
+  }, [ready, user, router]);
 
   if (ready && user) {
     return (
@@ -55,9 +54,9 @@ export default function RegisterPage() {
           </p>
 
           {formError && (
-            <div className="mt-5 rounded-sm border border-rose/45 bg-rose/10 px-4 py-3 text-sm text-[#ffc2cd]" role="alert">
+            <Alert tone="error" className="mt-5">
               {formError}
-            </div>
+            </Alert>
           )}
 
           <form

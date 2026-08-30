@@ -3,15 +3,6 @@
 import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react';
 import Link from 'next/link';
 
-/**
- * The primitives. Ink surfaces, paper cards, and one accent.
- *
- * Every interactive control is at least 44px tall on touch. That is not a nicety
- * for this product: FindBD's users are filling in a report on a phone, one-handed,
- * often having just lost the phone's owner's wallet, and a 32px tap target is the
- * difference between a report filed and a report abandoned.
- */
-
 type Tone = 'lost' | 'found' | 'neutral';
 
 export function cx(...parts: (string | false | null | undefined)[]): string {
@@ -21,14 +12,15 @@ export function cx(...parts: (string | false | null | undefined)[]): string {
 /* ------------------------------------------------------------------ buttons */
 
 const BUTTON_BASE =
-  'inline-flex min-h-11 items-center justify-center gap-2 rounded-sm px-5 text-sm font-semibold ' +
-  'transition-[transform,background-color,border-color,color] duration-150 active:translate-y-px ' +
-  'disabled:pointer-events-none disabled:opacity-45';
+  'inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-5 text-sm font-semibold ' +
+  'transition-all duration-150 active:translate-y-px ' +
+  'disabled:pointer-events-none disabled:opacity-45 ' +
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marigold';
 
 const BUTTON_VARIANTS = {
-  primary: 'bg-marigold text-ink hover:bg-[#ffc352]',
-  lost: 'bg-rose text-white hover:bg-[#fb5b74]',
-  found: 'bg-emerald text-ink hover:bg-[#2bd39b]',
+  primary: 'bg-marigold text-ink hover:bg-[#ffc352] shadow-md shadow-marigold/20',
+  lost: 'bg-rose text-white hover:bg-[#fb5b74] shadow-md shadow-rose/20',
+  found: 'bg-emerald text-ink hover:bg-[#2bd39b] shadow-md shadow-emerald/20',
   outline: 'border border-ink-4 text-paper hover:border-marigold hover:text-marigold',
   paper: 'border border-ink/15 bg-ink/5 text-ink hover:bg-ink/10',
   ghost: 'text-paper-3 hover:text-paper',
@@ -73,7 +65,7 @@ interface FieldProps {
 export function Field({ label, htmlFor, hint, error, required, children, className }: FieldProps) {
   return (
     <div className={cx('flex flex-col gap-1.5', className)}>
-      <label htmlFor={htmlFor} className="text-[0.8125rem] font-semibold text-paper-2">
+      <label htmlFor={htmlFor} className="text-[0.8125rem] font-semibold text-ink">
         {label}
         {required && <span className="ml-1 text-rose">*</span>}
       </label>
@@ -83,15 +75,15 @@ export function Field({ label, htmlFor, hint, error, required, children, classNa
           {error}
         </p>
       ) : (
-        hint && <p className="text-xs text-paper-3">{hint}</p>
+        hint && <p className="text-xs text-ink-3">{hint}</p>
       )}
     </div>
   );
 }
 
 const CONTROL =
-  'min-h-11 w-full rounded-sm border bg-ink-2 px-3 py-2 text-[0.9375rem] text-paper ' +
-  'placeholder:text-paper-3/60 transition-colors focus:border-marigold focus:outline-none';
+  'min-h-11 w-full rounded-md border bg-white px-3 py-2 text-[0.9375rem] text-ink ' +
+  'placeholder:text-ink-3 transition-all duration-150 focus:border-marigold focus:outline-none focus:ring-1 focus:ring-marigold/40';
 
 export function Input({ className, invalid, ...rest }: InputHTMLAttributes<HTMLInputElement> & { invalid?: boolean }) {
   return <input className={cx(CONTROL, invalid ? 'border-rose' : 'border-ink-4', className)} {...rest} />;
@@ -121,7 +113,7 @@ export function Select({
       className={cx(CONTROL, 'appearance-none pr-9', invalid ? 'border-rose' : 'border-ink-4', className)}
       style={{
         backgroundImage:
-          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23b8b2a0' d='M6 8 0 0h12z'/%3E%3C/svg%3E\")",
+          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%234a4a4a' d='M6 8 0 0h12z'/%3E%3C/svg%3E\")",
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'right 0.75rem center',
       }}
@@ -162,7 +154,6 @@ export function Badge({
   );
 }
 
-/** The same badge, on a paper card, where ink-on-paper needs different values. */
 export function PaperBadge({
   tone = 'neutral',
   children,
@@ -192,11 +183,6 @@ export function PaperBadge({
 
 /* ------------------------------------------------------------------ notices */
 
-/**
- * A paper notice. `tilt` is used only in the hero and in empty states — never in
- * a dense list, where a rotated card makes a column of titles measurably harder
- * to scan.
- */
 export function Notice({
   children,
   className,
@@ -238,9 +224,9 @@ export function Alert({ children, tone = 'error', className }: { children: React
     <div
       role={tone === 'error' ? 'alert' : 'status'}
       className={cx(
-        'rounded-sm border px-4 py-3 text-sm',
+        'rounded-md border px-4 py-3 text-sm',
         tone === 'error'
-          ? 'border-rose/45 bg-rose/10 text-[#ffc2cd]'
+          ? 'border-rose/50 bg-rose/10 text-[#ffc2cd]'
           : 'border-marigold/40 bg-marigold/10 text-[#ffe0a3]',
         className,
       )}
@@ -250,10 +236,6 @@ export function Alert({ children, tone = 'error', className }: { children: React
   );
 }
 
-/**
- * An empty screen is an invitation to act, so every one of these takes an action.
- * The tilted blank notice is the point: there is nothing on the wall yet.
- */
 export function EmptyState({
   title,
   body,
@@ -282,7 +264,6 @@ export function EmptyState({
   );
 }
 
-/** Section heading with a mono eyebrow. Used on every page for one rhythm. */
 export function SectionHead({
   eyebrow,
   title,
@@ -306,11 +287,10 @@ export function SectionHead({
   );
 }
 
-/** Page shell: one max width and one gutter, everywhere. */
 export function Container({ children, className }: { children: ReactNode; className?: string }) {
   return <div className={cx('mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8', className)}>{children}</div>;
 }
 
 export function Skeleton({ className }: { className?: string }) {
-  return <div className={cx('animate-pulse rounded-sm bg-ink-3', className)} />;
+  return <div className={cx('animate-pulse rounded-md bg-ink-3', className)} />;
 }

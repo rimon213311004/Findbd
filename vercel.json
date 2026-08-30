@@ -1,0 +1,6 @@
+{
+  "installCommand": "npm install",
+  "buildCommand": "npm run build -w @findbd/shared && npm run build -w @findbd/web",
+  "framework": "nextjs",
+  "regions": ["iad1"]
+}

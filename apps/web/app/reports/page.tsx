@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState, useMemo, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { apiGet, apiPost, apiDelete, ApiError, qs } from '../../lib/api';
 import { useRequireAuth } from '../../lib/auth';
@@ -36,7 +36,7 @@ const SORT_OPTIONS = [
   { value: 'relevant', label: 'Most relevant' },
 ] as const;
 
-export default function ReportsPage() {
+function ReportsInner() {
   const searchParams = useSearchParams();
   const [reports, setReports] = useState<ReportSummary[]>([]);
   const [total, setTotal] = useState(0);
@@ -48,7 +48,7 @@ export default function ReportsPage() {
   const [category, setCategory] = useState(searchParams.get('category') || '');
   const [district, setDistrict] = useState(searchParams.get('district') || '');
   const [q, setQ] = useState(searchParams.get('q') || '');
-  const [sort, setSort] = useState<ReportSort>(searchParams.get('sort') as ReportSort || 'newest');
+  const [sort, setSort] = useState<ReportSort>((searchParams.get('sort') as ReportSort) || 'newest');
   const [page, setPage] = useState(Number(searchParams.get('page') || 1));
 
   const [savingId, setSavingId] = useState<string | null>(null);
@@ -120,7 +120,6 @@ export default function ReportsPage() {
 
       {error && <Alert tone="error" className="mb-6">{error}</Alert>}
 
-      {/* Filters */}
       <div className="notice mb-8 p-4 sm:p-5">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           <Field label="Search" htmlFor="q" className="lg:col-span-2">
@@ -183,7 +182,6 @@ export default function ReportsPage() {
         </div>
       </div>
 
-      {/* Results */}
       {loading ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
@@ -230,7 +228,6 @@ export default function ReportsPage() {
             ))}
           </div>
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="mt-8 flex items-center justify-between">
               <Button
@@ -255,5 +252,13 @@ export default function ReportsPage() {
         </>
       )}
     </Container>
+  );
+}
+
+export default function ReportsPage() {
+  return (
+    <Suspense fallback={<Container className="py-10 sm:py-14"><div className="skeleton h-8 w-48" /></Container>}>
+      <ReportsInner />
+    </Suspense>
   );
 }

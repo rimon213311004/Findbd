@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { apiGet, apiPost, ApiError } from '../../lib/api';
-import { useRequireAuth } from '../../lib/auth';
+import { apiGet, apiPost, ApiError } from '../../../lib/api';
+import { useRequireAuth } from '../../../lib/auth';
 import {
   Container,
   SectionHead,
@@ -13,8 +13,8 @@ import {
   Skeleton,
   EmptyState,
   cx,
-} from '../../components/ui';
-import { MatchCard } from '../../components/match-card';
+} from '../../../components/ui';
+import { MatchCard } from '../../../components/match-card';
 import type { MatchSummary } from '@findbd/shared';
 
 export default function MatchesPage() {

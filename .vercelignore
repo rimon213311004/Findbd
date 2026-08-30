@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+apps/api/dist
+apps/api/node_modules
+packages/shared/dist
+packages/shared/node_modules
+.env
+.env.*
+*.log
+coverage

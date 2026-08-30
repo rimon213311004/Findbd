@@ -150,6 +150,7 @@ export default function HomePage() {
       <footer className="border-t border-ink-3">
         <Container className="py-8 text-center text-xs text-paper-3">
           <p>FindBD — built for Bangladesh, open to the world.</p>
+          <p className="mt-1">R_04 copyright</p>
         </Container>
       </footer>
     </div>

@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { apiGet, apiPost, apiDelete, apiPatch, ApiError } from '../../lib/api';
-import { useAuth } from '../../lib/auth';
+import { apiGet, apiPost, apiDelete, apiPatch, ApiError } from '../../../lib/api';
+import { useAuth } from '../../../lib/auth';
 import {
   Container,
   SectionHead,
@@ -19,7 +19,7 @@ import {
   Skeleton,
   EmptyState,
   cx,
-} from '../../components/ui';
+} from '../../../components/ui';
 import type { ReportDetail } from '@findbd/shared';
 import {
   CATEGORIES,
@@ -27,7 +27,7 @@ import {
   DISTRICT_NAMES,
   REPORT_STATUS_TRANSITIONS,
 } from '@findbd/shared';
-import { formatWhen, timeAgo, publicPlace } from '../../lib/format';
+import { formatWhen, timeAgo, publicPlace } from '../../../lib/format';
 
 export default function ReportDetailPage() {
   const params = useParams();

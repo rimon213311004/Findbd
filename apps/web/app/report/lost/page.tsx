@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '../../lib/auth';
-import { apiPost, ApiError } from '../../lib/api';
+import { useAuth } from '../../../lib/auth';
+import { apiPost, ApiError } from '../../../lib/api';
 import {
   Container,
   SectionHead,
@@ -17,7 +17,7 @@ import {
   Alert,
   Badge,
   cx,
-} from '../../components/ui';
+} from '../../../components/ui';
 import {
   CATEGORIES,
   CATEGORY_LABELS,
@@ -60,7 +60,7 @@ export default function ReportLostPage() {
         colour,
         description,
         occurredAt: new Date(occurredAt),
-        approxTime: approxTime || undefined,
+        approxTime: approxTime || '',
         district,
         area,
         locationDescription,

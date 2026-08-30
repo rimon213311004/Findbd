@@ -5,20 +5,19 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '../../lib/auth';
 import { useAction } from '../../lib/hooks';
-import { apiPost, ApiError } from '../../lib/api';
+import { ApiError } from '../../lib/api';
 import { Container, Field, Input, Button, Alert, EmptyState, ButtonLink, cx } from '../../components/ui';
 import type { LoginInput } from '@findbd/shared';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { ready, user } = useAuth();
+  const { ready, user, signIn } = useAuth();
   const [formError, setFormError] = useState<string | null>(null);
 
-  const action = useAction<[LoginInput], { user: unknown; accessToken: string }>(
+  const action = useAction<[LoginInput], void>(
     async (input) => {
       setFormError(null);
-      const data = await apiPost<{ user: unknown; accessToken: string }>('/api/auth/login', input);
-      return data;
+      await signIn(input);
     },
   );
 
@@ -56,9 +55,9 @@ export default function LoginPage() {
           </p>
 
           {formError && (
-            <div className="mt-5 rounded-sm border border-rose/45 bg-rose/10 px-4 py-3 text-sm text-[#ffc2cd]" role="alert">
+            <Alert tone="error" className="mt-5">
               {formError}
-            </div>
+            </Alert>
           )}
 
           <form

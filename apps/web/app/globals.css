@@ -1,54 +1,57 @@
 @import 'tailwindcss';
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   FindBD design tokens
+   FindBD — Modern Dark Palette
 
-   The thing FindBD replaces is the paper notice taped to a lamppost — layered
-   handbills near Mirpur 10, "সন্ধান চাই" across the top, a photocopied photo,
-   a reward line torn along the bottom. So the page is the wall (ink) and every
-   report is a notice placed on it (paper). That inversion, rather than a cream
-   page, is where the identity comes from: a notice is an object on a surface.
-
-   Marigold is the handbill headline colour. Rose and emerald are not decorative
-   — they are the Lost/Found axis, and they appear nowhere else.
+   High-contrast dark theme with vibrant accents. Every token is chosen for
+   readability on screen, not print: deep navy backgrounds, warm amber accent,
+   and clear rose/emerald for the Lost/Found axis.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @theme {
-  --color-ink: #101219;
-  --color-ink-2: #191c26;
-  --color-ink-3: #23262f;
-  --color-ink-4: #333743;
+  /* Backgrounds — layered depth */
+  --color-ink: #0b0d14;
+  --color-ink-2: #131620;
+  --color-ink-3: #1c1f2e;
+  --color-ink-4: #2a2d3e;
 
-  --color-paper: #f4f1e8;
-  --color-paper-2: #e6e1d2;
-  --color-paper-3: #b8b2a0;
+  /* Text — high-contrast warm neutrals */
+  --color-paper: #f7f5f0;
+  --color-paper-2: #e4e0d6;
+  --color-paper-3: #a09b8f;
 
+  /* Accent — vibrant marigold */
   --color-marigold: #ffb627;
-  --color-marigold-dim: #c98a12;
+  --color-marigold-dim: #b8841a;
+  --color-marigold-glow: rgba(255, 182, 39, 0.12);
 
-  --color-rose: #f43f5e;
+  /* Status — Lost / Found */
+  --color-rose: #fb7185;
   --color-rose-dim: #4a1522;
-  --color-emerald: #10b981;
-  --color-emerald-dim: #0b3a2c;
+  --color-emerald: #34d399;
+  --color-emerald-dim: #064e3b;
 
+  /* Feedback */
+  --color-amber: #fbbf24;
+  --color-sky: #38bdf8;
+
+  /* Typography */
   --font-display: var(--font-anek), 'Segoe UI', system-ui, sans-serif;
   --font-body: var(--font-hind), 'Segoe UI', system-ui, sans-serif;
   --font-mono: var(--font-mono-face), ui-monospace, 'Cascadia Code', monospace;
 
-  /* Fluid display sizes. Every one is clamped, so nothing overflows at 320px
-     and nothing looks lost on a 27" monitor. */
   --text-hero: clamp(2.25rem, 6.2vw, 4.5rem);
   --text-section: clamp(1.65rem, 3.6vw, 2.6rem);
   --text-card-title: clamp(1.05rem, 1.6vw, 1.3rem);
 
-  --radius-notice: 3px;
+  --radius-notice: 6px;
 }
 
 /* ────────────────────────────────────────────────────────────────── base ── */
 
 @layer base {
   * {
-    min-width: 0; /* Stops long unbroken strings forcing a horizontal scroll. */
+    min-width: 0;
   }
 
   html {
@@ -66,10 +69,7 @@
     overflow-x: hidden;
   }
 
-  h1,
-  h2,
-  h3,
-  h4 {
+  h1, h2, h3, h4 {
     font-family: var(--font-display);
     font-weight: 700;
     line-height: 1.08;
@@ -81,7 +81,6 @@
     text-wrap: pretty;
   }
 
-  /* One focus style everywhere, and it is visible on ink and on paper alike. */
   :focus-visible {
     outline: 2px solid var(--color-marigold);
     outline-offset: 2px;
@@ -93,7 +92,6 @@
     color: var(--color-ink);
   }
 
-  /* Dark scrollbar, so the browser chrome does not undo the palette. */
   * {
     scrollbar-color: var(--color-ink-4) var(--color-ink);
   }
@@ -102,24 +100,16 @@
 /* ──────────────────────────────────────────────────────────── components ── */
 
 @layer components {
-  /**
-   * The wall. Faint vertical strips and a warm glow behind the hero — enough
-   * texture that the paper cards read as sitting *on* something.
-   */
   .wall {
     background-image:
-      radial-gradient(120% 80% at 50% -10%, rgba(255, 182, 39, 0.09), transparent 62%),
+      radial-gradient(120% 80% at 50% -10%, rgba(255, 182, 39, 0.10), transparent 62%),
       repeating-linear-gradient(
         90deg,
-        rgba(255, 255, 255, 0.016) 0 1px,
+        rgba(255, 255, 255, 0.018) 0 1px,
         transparent 1px 92px
       );
   }
 
-  /**
-   * A notice. Paper, a hard shadow so it lifts off the wall, and — only where
-   * it is used deliberately — a degree or two of rotation.
-   */
   .notice {
     background: var(--color-paper);
     color: var(--color-ink);
@@ -133,8 +123,6 @@
     position: relative;
   }
 
-  /* The pin. Decorative, so it is hidden from assistive technology by being a
-     pseudo-element rather than an image. */
   .notice-pinned::before {
     content: '';
     position: absolute;
@@ -149,7 +137,6 @@
     z-index: 1;
   }
 
-  /* The torn-off strip along the bottom of a reward line. */
   .torn-edge {
     --tooth: 9px;
     -webkit-mask-image: radial-gradient(
@@ -166,7 +153,6 @@
     mask-position: bottom;
   }
 
-  /* Small uppercase mono label. Used for eyebrows and data captions. */
   .eyebrow {
     font-family: var(--font-mono);
     font-size: 0.6875rem;
@@ -182,25 +168,14 @@
 
 /* ───────────────────────────────────────────────────────────────── motion ── */
 
-/* The ledger bars grow from zero; the rows arrive in sequence behind them. */
 @keyframes ledger-fill {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
 }
 
 @keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
 }
 
 .animate-rise {
@@ -208,9 +183,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
