@@ -4,6 +4,11 @@ Bangladesh-focused lost & found platform with automatic Lost↔Found matching.
 
 Built with a full-stack TypeScript monorepo: **Next.js 16** frontend, **Express 5** API, and **MongoDB** data layer.
 
+## Live Demo
+
+- **Frontend:** https://findbd-web.vercel.app
+- **Backend API:** https://findbd.onrender.com
+
 ## Screenshot
 
 ![Landing Page](docs/screenshots/landing.png)
