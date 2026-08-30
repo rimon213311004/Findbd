@@ -233,7 +233,7 @@ export function Spinner({ className }: { className?: string }) {
   );
 }
 
-export function Alert({ children, tone = 'error' }: { children: ReactNode; tone?: 'error' | 'info' }) {
+export function Alert({ children, tone = 'error', className }: { children: ReactNode; tone?: 'error' | 'info'; className?: string }) {
   return (
     <div
       role={tone === 'error' ? 'alert' : 'status'}
@@ -242,6 +242,7 @@ export function Alert({ children, tone = 'error' }: { children: ReactNode; tone?
         tone === 'error'
           ? 'border-rose/45 bg-rose/10 text-[#ffc2cd]'
           : 'border-marigold/40 bg-marigold/10 text-[#ffe0a3]',
+        className,
       )}
     >
       {children}
